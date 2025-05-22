@@ -1,0 +1,15 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Проверить код ESLint",
+      "type": "shell",
+      "command": "npx eslint .",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": ["$eslint-stylish"]
+    }
+  ]
+}
