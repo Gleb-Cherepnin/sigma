@@ -1,0 +1,41 @@
+# Node.js зависимости
+/node_modules
+
+# Логи npm и yarn
+npm-debug.log*
+yarn-error.log*
+
+# Сборка и временные файлы
+/dist
+/tmp
+/out-tsc
+/build
+
+# Файлы окружения с секретами (токены, ключи)
+.env
+env.ts
+
+# Настройки редакторов и IDE
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+.idea/
+*.sublime-workspace
+*.launch
+.settings/
+
+# Кэш и логи прочих инструментов
+.sass-cache/
+.angular/cache
+coverage/
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+
+# Статические файлы, которые генерируются (если есть)
+# Например, если используешь сборщики, можно добавить
+# public/assets/

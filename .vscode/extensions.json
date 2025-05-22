@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint", // Линтер для JS/TS
+    "esbenp.prettier-vscode", // Форматирование кода
+    "ms-vscode.vscode-typescript-tslint-plugin", // Поддержка TypeScript
+    "christian-kohler.path-intellisense", // Автодополнение путей
+    "formulahendry.auto-close-tag", // Автоматическое закрытие тегов (если есть HTML)
+    "formulahendry.auto-rename-tag" // Автоматическое переименование тегов
+  ]
+}
