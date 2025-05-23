@@ -319,3 +319,17 @@ document.querySelectorAll(".ministry-card").forEach((card) => {
     card.style.transition = "transform 0.3s ease";
   });
 });
+
+// Переход страниц назад и вперед
+window.addEventListener("popstate", (event) => {
+  // event.state может быть null, тогда покажем "home"
+  const page = (event.state && event.state.page) || "home";
+
+  // Вызов функции, которая показывает страницу
+  // Предполагается, что showPage определена в SPA-скрипте и доступна глобально
+  if (typeof showPage === "function") {
+    showPage(page);
+  } else {
+    console.warn("showPage function is not defined");
+  }
+});
