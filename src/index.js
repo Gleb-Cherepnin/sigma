@@ -57,91 +57,91 @@ sliderLeftArrow.addEventListener("click", () => {
 });
 
 //КАЛЕНДАРЬ
-const daysContainer = document.getElementById("days");
-const monthYear = document.getElementById("monthYear");
-const eventsContainer = document.getElementById("events");
-const dates = [];
-const startDate = new Date("2025-01-01");
-const endDate = new Date("2025-12-31");
+// const daysContainer = document.getElementById("days");
+// const monthYear = document.getElementById("monthYear");
+// const eventsContainer = document.getElementById("events");
+// const dates = [];
+// const startDate = new Date("2025-01-01");
+// const endDate = new Date("2025-12-31");
 
-let currentDate = new Date(startDate);
-while (currentDate <= endDate) {
-  dates.push(new Date(currentDate));
-  currentDate.setDate(currentDate.getDate() + 1);
-}
+// let currentDate = new Date(startDate);
+// while (currentDate <= endDate) {
+//   dates.push(new Date(currentDate));
+//   currentDate.setDate(currentDate.getDate() + 1);
+// }
 
-const today = new Date("2025-05-15");
-let currentIndex = dates.findIndex(
-  (d) => d.toDateString() === today.toDateString()
-);
+// const today = new Date("2025-05-15");
+// let currentIndex = dates.findIndex(
+//   (d) => d.toDateString() === today.toDateString()
+// );
 
-function renderCalendar() {
-  daysContainer.innerHTML = "";
-  const currentDay = dates[currentIndex];
-  monthYear.textContent = currentDay.toLocaleDateString("ru-RU", {
-    month: "long",
-    year: "numeric",
-  });
-  const start = Math.max(0, currentIndex - 7);
-  const end = Math.min(dates.length, currentIndex + 8);
-  for (let i = start; i < end; i++) {
-    const d = dates[i];
-    const el = document.createElement("div");
-    el.className = "day" + (i === currentIndex ? " active" : "");
-    const weekday = d.getDay();
-    let colorClass = "";
-    if ([0, 2, 3].includes(weekday)) {
-      colorClass = "orange";
-    }
-    el.innerHTML = `<div>${d.getDate()}</div><div class="${colorClass}">${d.toLocaleDateString("ru-RU", { weekday: "short" })}</div>`;
-    el.onclick = () => {
-      currentIndex = i;
-      renderCalendar();
-    };
-    daysContainer.appendChild(el);
-  }
-  renderEvents();
-}
+// function renderCalendar() {
+//   daysContainer.innerHTML = "";
+//   const currentDay = dates[currentIndex];
+//   monthYear.textContent = currentDay.toLocaleDateString("ru-RU", {
+//     month: "long",
+//     year: "numeric",
+//   });
+//   const start = Math.max(0, currentIndex - 7);
+//   const end = Math.min(dates.length, currentIndex + 8);
+//   for (let i = start; i < end; i++) {
+//     const d = dates[i];
+//     const el = document.createElement("div");
+//     el.className = "day" + (i === currentIndex ? " active" : "");
+//     const weekday = d.getDay();
+//     let colorClass = "";
+//     if ([0, 2, 3].includes(weekday)) {
+//       colorClass = "orange";
+//     }
+//     el.innerHTML = `<div>${d.getDate()}</div><div class="${colorClass}">${d.toLocaleDateString("ru-RU", { weekday: "short" })}</div>`;
+//     el.onclick = () => {
+//       currentIndex = i;
+//       renderCalendar();
+//     };
+//     daysContainer.appendChild(el);
+//   }
+//   renderEvents();
+// }
 
-function renderEvents() {
-  const d = dates[currentIndex];
-  const day = d.getDay();
-  eventsContainer.innerHTML = "";
-  const events = [];
-  if (day === 2) {
-    events.push("07:15 — Утренняя молитва");
-    events.push("17:30 — Молодежная молитва");
-  } else if (day === 3) {
-    events.push("18:00 — Вечернее служение");
-  } else if (day === 0) {
-    events.push("10:00 — Центральное служение");
-    events.push("14:00 — Молодежное служение");
-  }
-  if (events.length > 0) {
-    events.forEach((e) => {
-      const div = document.createElement("div");
-      const [time, text] = e.split("—").map((s) => s.trim());
-      const timeSpan = document.createElement("span");
-      timeSpan.classList.add("event-time");
-      timeSpan.textContent = time;
-      const textSpan = document.createElement("span");
-      textSpan.textContent = " — " + text;
-      div.appendChild(timeSpan);
-      div.appendChild(textSpan);
-      eventsContainer.appendChild(div);
-    });
-  } else {
-    eventsContainer.innerHTML = "<em>Нет запланированных событий</em>";
-  }
-}
+// function renderEvents() {
+//   const d = dates[currentIndex];
+//   const day = d.getDay();
+//   eventsContainer.innerHTML = "";
+//   const events = [];
+//   if (day === 2) {
+//     events.push("07:15 — Утренняя молитва");
+//     events.push("17:30 — Молодежная молитва");
+//   } else if (day === 3) {
+//     events.push("18:00 — Вечернее служение");
+//   } else if (day === 0) {
+//     events.push("10:00 — Центральное служение");
+//     events.push("14:00 — Молодежное служение");
+//   }
+//   if (events.length > 0) {
+//     events.forEach((e) => {
+//       const div = document.createElement("div");
+//       const [time, text] = e.split("—").map((s) => s.trim());
+//       const timeSpan = document.createElement("span");
+//       timeSpan.classList.add("event-time");
+//       timeSpan.textContent = time;
+//       const textSpan = document.createElement("span");
+//       textSpan.textContent = " — " + text;
+//       div.appendChild(timeSpan);
+//       div.appendChild(textSpan);
+//       eventsContainer.appendChild(div);
+//     });
+//   } else {
+//     eventsContainer.innerHTML = "<em>Нет запланированных событий</em>";
+//   }
+// }
 
-// Для теста — меняем каждый 1 сек (потом поставь обратно 86400000)
-setInterval(() => {
-  currentIndex = (currentIndex + 1) % dates.length;
-  renderCalendar();
-}, 86400000);
+// // Для теста — меняем каждый 1 сек (потом поставь обратно 86400000)
+// setInterval(() => {
+//   currentIndex = (currentIndex + 1) % dates.length;
+//   renderCalendar();
+// }, 86400000);
 
-renderCalendar();
+// renderCalendar();
 
 // ВИДЕО ЮТУБ
 const apiKey = "AIzaSyAfIzouTCoMl4Nd9saxT9l8Ypiq-9DFMqY";
@@ -184,14 +184,29 @@ loadYouTubeVideos();
 setInterval(loadYouTubeVideos, 3600000); // каждый час
 
 // КАРТА
-const map = L.map("map").setView([49.789828, 73.159875], 16);
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  attribution: "&copy; OpenStreetMap",
-}).addTo(map);
-L.marker([49.789828, 73.159875])
-  .addTo(map)
-  .bindPopup("Мы находимся здесь")
-  .openPopup();
+ function initMap() {
+    const coords = { lat: 49.789828, lng: 73.159875 };
+    const map = new google.maps.Map(document.getElementById("map"), {
+      center: coords,
+      zoom: 16,
+    });
+
+    const marker = new google.maps.Marker({
+      position: coords,
+      map: map,
+      title: "Мы находимся здесь",
+    });
+
+    const infoWindow = new google.maps.InfoWindow({
+      content: "<b>Мы находимся здесь</b>",
+    });
+
+    marker.addListener("click", () => {
+      infoWindow.open(map, marker);
+    });
+
+    infoWindow.open(map, marker);
+  }
 
 // SPA
 const pages = document.querySelectorAll(".page");
