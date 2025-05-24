@@ -184,14 +184,29 @@ loadYouTubeVideos();
 setInterval(loadYouTubeVideos, 3600000); // каждый час
 
 // КАРТА
-const map = L.map("map").setView([49.789828, 73.159875], 16);
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  attribution: "&copy; OpenStreetMap",
-}).addTo(map);
-L.marker([49.789828, 73.159875])
-  .addTo(map)
-  .bindPopup("Мы находимся здесь")
-  .openPopup();
+ function initMap() {
+    const coords = { lat: 49.789828, lng: 73.159875 };
+    const map = new google.maps.Map(document.getElementById("map"), {
+      center: coords,
+      zoom: 16,
+    });
+
+    const marker = new google.maps.Marker({
+      position: coords,
+      map: map,
+      title: "Мы находимся здесь",
+    });
+
+    const infoWindow = new google.maps.InfoWindow({
+      content: "<b>Мы находимся здесь</b>",
+    });
+
+    marker.addListener("click", () => {
+      infoWindow.open(map, marker);
+    });
+
+    infoWindow.open(map, marker);
+  }
 
 // SPA
 const pages = document.querySelectorAll(".page");
