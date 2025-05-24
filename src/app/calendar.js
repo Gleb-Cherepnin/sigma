@@ -1,91 +1,179 @@
-// calendarStyles.js
-function addCalendarStyles() {
-  const style = document.createElement("style");
-  document.head.appendChild(style);
-  const sheet = style.sheet;
+(() => {
+  // === ДИНАМИЧЕСКИЕ СТИЛИ ===
+  const style = document.createElement('style');
+  style.textContent = `
+    .mycal-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1rem;
+      user-select: none;
+      font-family: Arial, sans-serif;
+    }
+    .mycal-calendar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 0.5rem 0;
+      flex-grow: 1;
+      margin-bottom: 10rem;
+      margin-top: 5rem;
+    }
+    .mycal-day {
+      text-align: center;
+      padding: 0.5rem;
+      cursor: pointer;
+      min-width: 50px;
+      scroll-snap-align: center;
+      transition: background 0.2s, color 0.2s;
+      border-radius: 50%;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .mycal-day:hover {
+      background: #eee;
+    }
+    .mycal-day.mycal-selected {
+      background: #eee;
+      color: blac;
+      font-weight: bold;
+    }
+    .mycal-day.mycal-weekend {
+      color: red;
+    }
+    .mycal-month-label {
+      font-size: 0.7rem;
+      color: gray;
+      text-align: center;
+      margin-bottom: 0.25rem;
+      text-transform: capitalize;
+    }
 
-  sheet.insertRule(
-    `.calendar {
-    width: 90%;
-    max-width: 900px;
-    margin: 30px auto;
-    font-family: sans-serif;
-    overflow-x: hidden;
-  }`,
-    sheet.cssRules.length
-  );
-
-  sheet.insertRule(
-    `.header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    margin-bottom: 10px;
-  }`,
-    sheet.cssRules.length
-  );
-
-  sheet.insertRule(
-    `#days {
-    display: flex;
-    overflow-x: auto;
-    gap: 15px;
-  }`,
-    sheet.cssRules.length
-  );
-
-  sheet.insertRule(
-    `.day {
-    min-width: 60px;
-    padding: 10px;
+    .mycal-schedule {
+    position: absolute;
+    margin-top: 5rem;
     text-align: center;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: 0.3s;
-  }`,
-    sheet.cssRules.length
-  );
+    font-size: 0.95rem;
+    padding-top: 0.5rem;
+  }
 
-  sheet.insertRule(
-    `.day.active {
-    background: #6d6d6d;
-    color: #fff;
-    opacity: 0.5;
-  }`,
-    sheet.cssRules.length
-  );
+  .mycal-schedule-item {
+  }
 
-  sheet.insertRule(
-    `.events {
-    margin-top: 20px;
-    font-size: 16px;
-  }`,
-    sheet.cssRules.length
-  );
-
-  sheet.insertRule(
-    `::-webkit-scrollbar {
-    display: none;
-  }`,
-    sheet.cssRules.length
-  );
-
-  sheet.insertRule(
-    `.orange {
+  .mycal-time {
     color: orange;
     font-weight: bold;
-  }`,
-    sheet.cssRules.length
-  );
+  }
+  `;
+  document.head.appendChild(style);
 
-  sheet.insertRule(
-    `.event-time {
-    color: orange;
-    font-weight: bold;
-  }`,
-    sheet.cssRules.length
-  );
-}
+  // === ИНИЦИАЛИЗАЦИЯ КАЛЕНДАРЯ ===
+   const scheduleData = {
+    2: [ // Вторник
+      { time: '7:15', title: 'Утренняя молитва' },
+      { time: '17:00', title: 'Молодёжная молитва' }
+    ],
+    3: [ // Среда
+      { time: '18:00', title: 'Вечернее Богослужение' }
+    ],
+    4: [ // Четверг
+      { time: '16:00', title: 'Домашняя группа Вениамин Ильков' }
+    ],
+    5: [ // Пятница
+      { time: '18:30', title: 'Репетиция прославления' }
+    ],
+    6: [ // Суббота
+      { time: '', title: 'Скоро будет Альфа' }
+    ],
+    0: [ // Воскресенье
+      { time: '10:00', title: 'Утреннее Богослужение' },
+      { time: '14:00', title: 'Молодёжное Богослужение' }
+    ]
+  };
 
-addCalendarStyles();
+  // === ИНИЦИАЛИЗАЦИЯ ===
+  const container = document.querySelector('.calendar-container');
+  if (!container) {
+    console.warn('Элемент .calendar-container не найден!');
+    return;
+  }
+
+  const calendarWrap = document.createElement('div');
+  calendarWrap.className = 'mycal-wrap';
+
+  const calendar = document.createElement('div');
+  calendar.className = 'mycal-calendar';
+
+  const scheduleBlock = document.createElement('div');
+  scheduleBlock.className = 'mycal-schedule';
+
+  calendarWrap.append(calendar, scheduleBlock);
+  container.appendChild(calendarWrap);
+
+  let selectedDate = null;
+  let currentDate = new Date();
+
+  function renderSchedule(date) {
+    const weekday = date.getDay();
+    const events = scheduleData[weekday] || [];
+    scheduleBlock.innerHTML = '';
+
+    if (events.length === 0) return;
+
+    events.forEach(event => {
+      const div = document.createElement('div');
+      div.className = 'mycal-schedule-item';
+      div.innerHTML = event.time
+        ? `<span class="mycal-time">${event.time}</span> – ${event.title}`
+        : `${event.title}`;
+      scheduleBlock.appendChild(div);
+    });
+  }
+
+  function renderCalendar(baseDate) {
+    calendar.innerHTML = '';
+    const days = [];
+
+    const startDate = new Date(baseDate);
+    startDate.setDate(startDate.getDate() - 6);
+
+    for (let i = 0; i < 21; i++) {
+      const date = new Date(startDate);
+      date.setDate(startDate.getDate() + i);
+
+      const dayEl = document.createElement('div');
+      dayEl.className = 'mycal-day';
+
+      const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+      if (isWeekend) dayEl.classList.add('mycal-weekend');
+
+      dayEl.innerHTML = `
+        <div class="mycal-month-label">${date.toLocaleString('ru', { month: 'long' })}</div>
+        <div>${date.getDate()}</div>
+        <div class="mycal-weekday-label">${date.toLocaleString('ru', { weekday: 'short' })}</div>
+      `;
+
+      dayEl.addEventListener('click', () => {
+        if (selectedDate) selectedDate.classList.remove('mycal-selected');
+        dayEl.classList.add('mycal-selected');
+        selectedDate = dayEl;
+        renderSchedule(date);
+      });
+
+      if (date.toDateString() === new Date().toDateString()) {
+        dayEl.classList.add('mycal-selected');
+        selectedDate = dayEl;
+        renderSchedule(date);
+      }
+
+      days.push(dayEl);
+    }
+
+    days.forEach(day => calendar.appendChild(day));
+  }
+
+  renderCalendar(currentDate);
+})();
