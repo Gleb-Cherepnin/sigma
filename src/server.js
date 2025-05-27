@@ -11,6 +11,11 @@ app.use(bodyParser.json());
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const CHAT_ID = process.env.CHAT_ID;
 
+if (!TELEGRAM_BOT_TOKEN || !CHAT_ID) {
+  console.error("Отсутствует TELEGRAM_BOT_TOKEN или CHAT_ID в .env");
+  process.exit(1);
+}
+
 app.post("/sendTelegram", async (req, res) => {
   console.log("Получен запрос на /sendTelegram", req.body);
 
@@ -40,27 +45,14 @@ app.post("/sendTelegram", async (req, res) => {
     if (data.ok) {
       res.json({ success: true });
     } else {
-      console.error("Ошибка Telegram API:", data);
-      res.status(500).json({ error: "Ошибка Telegram API" });
+      console.error("Ошибка Telegram API:", data.description);
+      res
+        .status(500)
+        .json({ error: data.description || "Ошибка Telegram API" });
     }
   } catch (err) {
     console.error("Ошибка сервера при отправке в Telegram:", err);
     res.status(500).json({ error: "Ошибка сервера" });
-  }
-});
-
-app.get("/getChatId", async (req, res) => {
-  const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates`;
-
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    console.log("Ответ getUpdates:", data);
-    res.send(data);
-  } catch (error) {
-    console.error("Ошибка при получении chat ID:", error);
-    res.status(500).send("Ошибка");
   }
 });
 
