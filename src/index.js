@@ -58,37 +58,80 @@ sliderLeftArrow.addEventListener("click", () => {
 const apiKey = "AIzaSyAfIzouTCoMl4Nd9saxT9l8Ypiq-9DFMqY";
 const channelId = "UC4Lg60FQLP-l6UKupVhKrZA"; 
 const maxResults = 3;
+
 async function loadYouTubeVideos() {
   try {
     const channelRes = await fetch(
       `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${channelId}&key=${apiKey}`
     );
     const channelData = await channelRes.json();
-    const uploadsPlaylistId =
-      channelData.items[0].contentDetails.relatedPlaylists.uploads;
+    const uploadsPlaylistId = channelData.items[0].contentDetails.relatedPlaylists.uploads;
+
     const videosRes = await fetch(
       `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsPlaylistId}&maxResults=${maxResults}&key=${apiKey}`
     );
     const videosData = await videosRes.json();
+
     const container = document.getElementById("youtube-videos");
     container.innerHTML = "";
+
     videosData.items.forEach((video) => {
       const videoId = video.snippet.resourceId.videoId;
-      const iframe = document.createElement("iframe");
-      iframe.className = "youtube-video";
-      iframe.src = `https://www.youtube.com/embed/${videoId}`;
-      iframe.frameBorder = "0";
-      iframe.allow =
-        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-      iframe.allowFullscreen = true;
-      container.appendChild(iframe);
+      const title = video.snippet.title;
+
+      const videoWrapper = document.createElement("div");
+      videoWrapper.className = "youtube-thumbnail";
+      videoWrapper.style.position = "relative";
+      videoWrapper.style.cursor = "pointer";
+      videoWrapper.style.maxWidth = "300px";
+      videoWrapper.style.marginBottom = "20px";
+
+      const img = document.createElement("img");
+      img.src = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+      img.alt = title;
+      img.style.width = "100%";
+      img.onerror = function () {
+        // fallback если нет maxres
+        this.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+      };
+
+      const playBtn = document.createElement("div");
+      playBtn.innerHTML = "▶";
+      playBtn.style.position = "absolute";
+      playBtn.style.top = "50%";
+      playBtn.style.left = "50%";
+      playBtn.style.transform = "translate(-50%, -50%)";
+      playBtn.style.fontSize = "64px";
+      playBtn.style.color = "white";
+      playBtn.style.textShadow = "0 0 10px black";
+
+      videoWrapper.appendChild(img);
+      videoWrapper.appendChild(playBtn);
+
+      // При клике загружаем iframe
+      videoWrapper.addEventListener("click", () => {
+        const iframe = document.createElement("iframe");
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        iframe.width = "100%";
+        iframe.height = "170";
+        iframe.frameBorder = "0";
+        iframe.allow =
+          "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+        iframe.allowFullscreen = true;
+        videoWrapper.innerHTML = ""; // удаляем превью
+        videoWrapper.appendChild(iframe);
+      });
+
+      container.appendChild(videoWrapper);
     });
   } catch (err) {
     console.error("Ошибка при загрузке видео:", err);
   }
 }
+
 loadYouTubeVideos();
 setInterval(loadYouTubeVideos, 3600000);
+
 
 // КАРТА
  function initMap() {
