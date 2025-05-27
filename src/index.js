@@ -134,37 +134,31 @@ setInterval(loadYouTubeVideos, 3600000);
 
 
 // КАРТА
-  ymaps.ready(function () {
+ function initMap() {
+    const coords = { lat: 49.789828, lng: 73.159875 };
+
     const map = new ymaps.Map("map", {
-      center: [49.789828, 73.159875], // координаты
+      center: [coords.lat, coords.lng],
       zoom: 16,
-      controls: ['zoomControl', 'fullscreenControl'],
     });
 
     const placemark = new ymaps.Placemark(
-      [49.789828, 73.159875],
-      {
-        balloonContent: '<b>Церковь Слово Жизни </b>',
-        hintContent: 'Слово Жизни',
-      },
-      {
-        preset: 'islands#redDotIcon',
-      }
+      [coords.lat, coords.lng],
+      { balloonContent: "<b>Мы находимся здесь</b>" },
+      { preset: 'islands#redDotIcon', balloonCloseButton: true }
     );
 
     map.geoObjects.add(placemark);
-    placemark.balloon.open(); // открыть сразу
-  });
 
-   const style = document.createElement('style');
-  style.textContent = `
-    .ymaps-2-1-79-copyrights-pane,
-    .ymaps-2-1-79-map-copyrights-promo,
-    .ymaps-2-1-79-controls__control.ymaps-2-1-79-controls__control_copyrights {
-      display: none !important;
-    }
-  `;
-  document.head.appendChild(style);
+    // Балун по умолчанию открыт
+    placemark.balloon.open();
+
+    placemark.events.add('click', function () {
+      placemark.balloon.open();
+    });
+  }
+
+  ymaps.ready(initMap);
 
 // SPA
 const pages = document.querySelectorAll(".page");
