@@ -101,7 +101,7 @@ async function loadYouTubeVideos() {
       playBtn.style.top = "50%";
       playBtn.style.left = "50%";
       playBtn.style.transform = "translate(-50%, -50%)";
-      playBtn.style.fontSize = "64px";
+      playBtn.style.fontSize = "40px";
       playBtn.style.color = "white";
       playBtn.style.textShadow = "0 0 10px black";
 
@@ -134,29 +134,37 @@ setInterval(loadYouTubeVideos, 3600000);
 
 
 // КАРТА
- function initMap() {
-    const coords = { lat: 49.789828, lng: 73.159875 };
-    const map = new google.maps.Map(document.getElementById("map"), {
-      center: coords,
+  ymaps.ready(function () {
+    const map = new ymaps.Map("map", {
+      center: [49.789828, 73.159875], // координаты
       zoom: 16,
+      controls: ['zoomControl', 'fullscreenControl'],
     });
 
-    const marker = new google.maps.Marker({
-      position: coords,
-      map: map,
-      title: "Мы находимся здесь",
-    });
+    const placemark = new ymaps.Placemark(
+      [49.789828, 73.159875],
+      {
+        balloonContent: '<b>Церковь Слово Жизни </b>',
+        hintContent: 'Слово Жизни',
+      },
+      {
+        preset: 'islands#redDotIcon',
+      }
+    );
 
-    const infoWindow = new google.maps.InfoWindow({
-      content: "<b>Мы находимся здесь</b>",
-    });
+    map.geoObjects.add(placemark);
+    placemark.balloon.open(); // открыть сразу
+  });
 
-    marker.addListener("click", () => {
-      infoWindow.open(map, marker);
-    });
-
-    infoWindow.open(map, marker);
-  }
+   const style = document.createElement('style');
+  style.textContent = `
+    .ymaps-2-1-79-copyrights-pane,
+    .ymaps-2-1-79-map-copyrights-promo,
+    .ymaps-2-1-79-controls__control.ymaps-2-1-79-controls__control_copyrights {
+      display: none !important;
+    }
+  `;
+  document.head.appendChild(style);
 
 // SPA
 const pages = document.querySelectorAll(".page");
