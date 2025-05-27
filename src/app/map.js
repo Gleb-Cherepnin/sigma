@@ -9,7 +9,7 @@ function addMapStyles() {
     .map-container {
       display: flex;
       justify-content: center;
-      margin-top: 50px;
+      margin-top: 100px;
     }
   `,
     sheet.cssRules.length
