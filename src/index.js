@@ -47,7 +47,7 @@ startSliderAuto();
 // ВИДЕО ЮТУБ
 const apiKey = "AIzaSyAfIzouTCoMl4Nd9saxT9l8Ypiq-9DFMqY";
 const channelId = "UC4Lg60FQLP-l6UKupVhKrZA";
-const maxResults = 3;
+const maxResults = 6;
 
 async function loadYouTubeVideos() {
   try {
@@ -264,7 +264,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// ПКРУТ КАРТОЧКИ
+// ПРОКРУТ КАРТОЧКИ
 document.querySelectorAll(".ministry-card").forEach((card) => {
   card.addEventListener("mousemove", (e) => {
     const rect = card.getBoundingClientRect();

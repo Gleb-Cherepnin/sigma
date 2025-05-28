@@ -5,13 +5,110 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Слово Жизни</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <!-- <link rel="stylesheet" href="style.css" /> -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
 
+  <style>
+    #preloader {
+      position: fixed;
+      inset: 0;
+      background: white;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 1s ease;
+      perspective: 800px; /* для 3D трансформации */
+    }
+    #preloader .logo {
+      width: 120px;
+      margin-bottom: 30px;
+      animation: pulse 1.5s infinite;
+      transform-style: preserve-3d;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .progress-bar {
+      width: 200px;
+      height: 6px;
+      background: #eee;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .progress-bar .progress {
+      width: 0%;
+      height: 100%;
+      background: #ffbb00;
+      transition: width 0.3s ease;
+    }
+    #preloader.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #preloader.fade-out .logo {
+      animation: logo-move-back 1s forwards;
+    }
+    @keyframes logo-move-back {
+      0% {
+        transform: scale(1) translateZ(0);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(0.5) translateZ(-200px);
+        opacity: 0;
+      }
+    }
+    #content {
+      display: none;
+      padding: 20px;
+    }
+  </style>
+  <div id="preloader">
+    <img src="assets/Frame 79 2.svg" alt="Logo" class="logo" />
+    <div class="progress-bar">
+      <div class="progress"></div>
+    </div>
+  </div>
 
+  <script>
+function simulateLoading() {
+  return new Promise((resolve) => {
+    const progress = document.querySelector(".progress");
+    let percent = 0;
 
+    const interval = setInterval(() => {
+      percent += Math.random() * 2;  // уменьшили скорость с 8 до 2
+      if (percent >= 100) {
+        percent = 100;
+        clearInterval(interval);
+        resolve();
+      }
+      progress.style.width = `${percent}%`;
+    }, 10); // увеличили интервал с 60 до 100 мс
+  });
+}
+
+    async function runPreloader() {
+      await simulateLoading();
+
+      const preloader = document.getElementById("preloader");
+      preloader.classList.add("fade-out");
+
+      // Ждем одновременно завершения анимации логотипа и fade-out (1 сек)
+      setTimeout(() => {
+        preloader.style.display = "none";
+        document.getElementById("content").style.display = "block";
+      }, 1000);
+    }
+
+    document.addEventListener("DOMContentLoaded", runPreloader);
+  </script>
 
 <!-- ШАПКА -->
 <header>
@@ -590,13 +687,6 @@
 
 
 <script src="index.js"></script>
-<script src="app/header.js"></script>
-<script src="app/slider.js"></script>
-<script src="app/youtube.js"></script>
-<script src="app/map.js"></script>
-<script src="app/ministry.js"></script>
-<script src="app/footer.js"></script>
-<script src="app/conferences.js"></script>
-<script src="app/activities.js"></script>
+
 </body>
 </html>
