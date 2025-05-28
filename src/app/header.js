@@ -226,11 +226,20 @@ function addStyles() {
       }
       
       nav {
-        gap: 20px;
+        gap: 15px;
+      }
+      
+      nav a {
+        font-size: 14px;
+        white-space: nowrap;
       }
       
       .logo img {
         height: 35px;
+      }
+
+      .donate-btn {
+        margin-left: 30px;
       }
     }`,
     sheet.cssRules.length

@@ -3,21 +3,31 @@
 document.addEventListener("DOMContentLoaded", () => {
   const style = document.createElement("style");
   style.textContent = `
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
     .slider-wrapper {
-      width: 100%;
       display: flex;
       justify-content: center;
-      align-items: center;
+      width: 100%;
       padding: 20px 0;
     }
 
     .slider-container {
       position: relative;
-      width: 80%;
+      width: 100%;
       max-width: 1000px;
       height: 400px;
       overflow: hidden;
       border-radius: 20px;
+      margin: 0 auto;
     }
 
     .slider {
@@ -31,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
       min-width: 100%;
       height: 100%;
       position: relative;
+      flex-shrink: 0;
     }
 
     .slide img {

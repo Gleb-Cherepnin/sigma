@@ -43,20 +43,10 @@ function stopSliderAuto() {
 }
 showSliderSlide(sliderIndex);
 startSliderAuto();
-sliderRightArrow.addEventListener("click", () => {
-  nextSliderSlide();
-  stopSliderAuto();
-  startSliderAuto();
-});
-sliderLeftArrow.addEventListener("click", () => {
-  prevSliderSlide();
-  stopSliderAuto();
-  startSliderAuto();
-});
 
 // ВИДЕО ЮТУБ
 const apiKey = "AIzaSyAfIzouTCoMl4Nd9saxT9l8Ypiq-9DFMqY";
-const channelId = "UC4Lg60FQLP-l6UKupVhKrZA"; 
+const channelId = "UC4Lg60FQLP-l6UKupVhKrZA";
 const maxResults = 3;
 
 async function loadYouTubeVideos() {
@@ -65,7 +55,8 @@ async function loadYouTubeVideos() {
       `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${channelId}&key=${apiKey}`
     );
     const channelData = await channelRes.json();
-    const uploadsPlaylistId = channelData.items[0].contentDetails.relatedPlaylists.uploads;
+    const uploadsPlaylistId =
+      channelData.items[0].contentDetails.relatedPlaylists.uploads;
 
     const videosRes = await fetch(
       `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsPlaylistId}&maxResults=${maxResults}&key=${apiKey}`
@@ -132,33 +123,32 @@ async function loadYouTubeVideos() {
 loadYouTubeVideos();
 setInterval(loadYouTubeVideos, 3600000);
 
-
 // КАРТА
- function initMap() {
-    const coords = { lat: 49.789828, lng: 73.159875 };
+function initMap() {
+  const coords = { lat: 49.789828, lng: 73.159875 };
 
-    const map = new ymaps.Map("map", {
-      center: [coords.lat, coords.lng],
-      zoom: 16,
-    });
+  const map = new ymaps.Map("map", {
+    center: [coords.lat, coords.lng],
+    zoom: 16,
+  });
 
-    const placemark = new ymaps.Placemark(
-      [coords.lat, coords.lng],
-      { balloonContent: "<b>Мы находимся здесь</b>" },
-      { preset: 'islands#redDotIcon', balloonCloseButton: true }
-    );
+  const placemark = new ymaps.Placemark(
+    [coords.lat, coords.lng],
+    { balloonContent: "<b>Мы находимся здесь</b>" },
+    { preset: "islands#redDotIcon", balloonCloseButton: true }
+  );
 
-    map.geoObjects.add(placemark);
+  map.geoObjects.add(placemark);
 
-    // Балун по умолчанию открыт
+  // Балун по умолчанию открыт
+  placemark.balloon.open();
+
+  placemark.events.add("click", function () {
     placemark.balloon.open();
+  });
+}
 
-    placemark.events.add('click', function () {
-      placemark.balloon.open();
-    });
-  }
-
-  ymaps.ready(initMap);
+ymaps.ready(initMap);
 
 // SPA
 const pages = document.querySelectorAll(".page");
@@ -282,14 +272,12 @@ document.querySelectorAll(".ministry-card").forEach((card) => {
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
 
-
     const maxTranslate = 15;
 
-
-    const translateX = (x - 0.5) * 2 * maxTranslate; 
+    const translateX = (x - 0.5) * 2 * maxTranslate;
     const translateY = (y - 0.5) * 2 * maxTranslate;
 
-    card.style.transform = `translate(${translateX}px, ${translateY}px) scale(1.05)`; 
+    card.style.transform = `translate(${translateX}px, ${translateY}px) scale(1.05)`;
     card.style.transition = "transform 0.1s ease-out";
   });
 
@@ -298,4 +286,3 @@ document.querySelectorAll(".ministry-card").forEach((card) => {
     card.style.transition = "transform 0.3s ease";
   });
 });
-
