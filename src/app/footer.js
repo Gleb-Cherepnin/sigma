@@ -51,7 +51,8 @@ function addFooterStyles() {
       font-size: 12px;
       line-height: 1.6;
       margin-top: 10px;
-      width: 600px;
+      width: 100%;
+      max-width: 600px;
     }
   `);
 
@@ -120,6 +121,83 @@ function addFooterStyles() {
   sheet.insertRule(`
     .footer-links a:hover {
       text-decoration: underline;
+    }
+  `);
+
+  sheet.insertRule(`
+    @media (max-width: 1024px) {
+      .footer {
+        padding: 30px 15px;
+      }
+      
+      .footer-container {
+        gap: 30px;
+      }
+      
+      .social-icons img {
+        width: 30px;
+        height: 30px;
+      }
+    }
+  `);
+
+  sheet.insertRule(`
+    @media (max-width: 768px) {
+      .footer {
+        padding: 25px 15px;
+        margin-top: 50px;
+      }
+      
+      .footer-container {
+        gap: 25px;
+      }
+      
+      .footer-text {
+        font-size: 11px;
+      }
+      
+      .social-icons {
+        gap: 12px;
+      }
+      
+      .social-icons img {
+        width: 28px;
+        height: 28px;
+      }
+    }
+  `);
+
+  sheet.insertRule(`
+    @media (max-width: 480px) {
+      .footer {
+        padding: 20px 10px;
+        margin-top: 30px;
+      }
+      
+      .footer-container {
+        gap: 20px;
+      }
+      
+      .footer-logo {
+        height: 20px;
+      }
+      
+      .footer-text {
+        font-size: 10px;
+      }
+      
+      .social-icons {
+        gap: 10px;
+      }
+      
+      .social-icons img {
+        width: 25px;
+        height: 25px;
+      }
+      
+      .footer-links {
+        font-size: 12px;
+      }
     }
   `);
 }

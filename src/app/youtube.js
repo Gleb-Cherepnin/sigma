@@ -11,6 +11,9 @@ function addYouTubeStyles() {
       gap: 20px;
       flex-wrap: wrap;
       justify-content: center;
+      padding: 0 20px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
   `,
     sheet.cssRules.length
@@ -21,6 +24,8 @@ function addYouTubeStyles() {
     .youtube-video {
       width: 300px;
       aspect-ratio: 16 / 9;
+      border-radius: 8px;
+      overflow: hidden;
     }
   `,
     sheet.cssRules.length
@@ -30,10 +35,12 @@ function addYouTubeStyles() {
     `
     .videos-header {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
-      gap: 630px;
+      padding: 0 20px;
+      max-width: 1200px;
+      margin: 0 auto 20px auto;
     }
   `,
     sheet.cssRules.length
@@ -71,6 +78,84 @@ function addYouTubeStyles() {
     .all-videos-button:hover {
       background-color: orange;
       color: white;
+    }
+  `,
+    sheet.cssRules.length
+  );
+
+  sheet.insertRule(
+    `
+    @media screen and (max-width: 1024px) {
+      .youtube-container {
+        gap: 15px;
+      }
+      
+      .youtube-video {
+        width: 280px;
+      }
+      
+      .videos-header {
+        gap: 20px;
+      }
+    }
+  `,
+    sheet.cssRules.length
+  );
+
+  sheet.insertRule(
+    `
+    @media screen and (max-width: 768px) {
+      .youtube-container {
+        gap: 15px;
+        padding: 0 15px;
+      }
+      
+      .youtube-video {
+        width: calc(50% - 15px);
+        min-width: 250px;
+      }
+      
+      .videos-header {
+        padding: 0 15px;
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .videos-header h2 {
+        font-size: 22px;
+      }
+    }
+  `,
+    sheet.cssRules.length
+  );
+
+  sheet.insertRule(
+    `
+    @media screen and (max-width: 480px) {
+      .youtube-container {
+        gap: 10px;
+        padding: 0 10px;
+      }
+      
+      .youtube-video {
+        width: 100%;
+        min-width: unset;
+      }
+      
+      .videos-header {
+        padding: 0 10px;
+        gap: 10px;
+      }
+      
+      .videos-header h2 {
+        font-size: 20px;
+      }
+      
+      .all-videos-button {
+        padding: 6px 12px;
+        font-size: 13px;
+      }
     }
   `,
     sheet.cssRules.length

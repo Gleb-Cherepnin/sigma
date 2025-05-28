@@ -218,6 +218,154 @@ function addStyles() {
   }`,
     sheet.cssRules.length
   );
+
+  sheet.insertRule(
+    `@media screen and (max-width: 1024px) {
+      header {
+        padding: 10px 20px;
+      }
+      
+      nav {
+        gap: 20px;
+      }
+      
+      .logo img {
+        height: 35px;
+      }
+    }`,
+    sheet.cssRules.length
+  );
+
+  sheet.insertRule(
+    `@media screen and (max-width: 768px) {
+      header {
+        padding: 10px 20px;
+      }
+      
+      nav {
+        display: none;
+      }
+      
+      .logo-wrap {
+        justify-content: flex-start;
+      }
+      
+      .actions-wrap {
+        justify-content: flex-end;
+      }
+      
+      .logo-spacer, .actions-spacer {
+        display: none;
+      }
+    }`,
+    sheet.cssRules.length
+  );
+
+  sheet.insertRule(
+    `@media screen and (max-width: 480px) {
+      .logo img {
+        height: 30px;
+      }
+      
+      nav a {
+        font-size: 14px;
+      }
+      
+      .donate-btn {
+        padding: 6px 14px;
+        font-size: 14px;
+      }
+    }`,
+    sheet.cssRules.length
+  );
 }
 
 addStyles();
+
+document.addEventListener("DOMContentLoaded", () => {
+  const style = document.createElement("style");
+  style.textContent = `
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo {
+      height: 50px;
+      width: auto;
+    }
+
+    .header-text {
+      font-size: 18px;
+      color: #333;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .donate-button {
+      background-color: #ff6b00;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+    }
+
+    .donate-button:hover {
+      background-color: #e05a00;
+    }
+
+    @media screen and (max-width: 768px) {
+      .header {
+        padding: 15px 20px;
+      }
+
+      .header-text {
+        display: none;
+      }
+
+      .logo {
+        height: 40px;
+      }
+
+      .donate-button {
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .header {
+        padding: 10px 15px;
+      }
+
+      .logo {
+        height: 35px;
+      }
+
+      .donate-button {
+        padding: 6px 12px;
+        font-size: 13px;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+});

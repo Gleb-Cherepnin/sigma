@@ -4,7 +4,8 @@ style.textContent = `
 /* === HERO === */
 .ministry-hero {
   position: relative;
-  width: 1335px;
+  width: 100%;
+  max-width: 1335px;
   height: 400px;
   margin: 0 auto 40px auto;
   overflow: hidden;
@@ -38,6 +39,7 @@ style.textContent = `
   margin-top: 40px;
   margin: 40px auto 0;
   max-width: 1100px;
+  padding: 0 20px;
 }
 .ministry-card {
   position: relative;
@@ -176,6 +178,115 @@ style.textContent = `
   to {
     transform: scale(1);
     opacity: 1;
+  }
+}
+
+/* === RESPONSIVE STYLES === */
+@media screen and (max-width: 1024px) {
+  .ministry-hero {
+    height: 350px;
+  }
+  
+  .ministry-text h1 {
+    font-size: 32px;
+  }
+  
+  .ministry-cards {
+    gap: 20px;
+  }
+  
+  .ministry-card {
+    width: 220px;
+    height: 250px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .ministry-hero {
+    height: 300px;
+    border-radius: 0 0 15px 15px;
+  }
+  
+  .ministry-image {
+    border-radius: 0 0 15px 15px;
+  }
+  
+  .ministry-text {
+    bottom: 20px;
+    left: 20px;
+  }
+  
+  .ministry-text h1 {
+    font-size: 28px;
+  }
+  
+  .ministry-cards {
+    gap: 15px;
+  }
+  
+  .ministry-card {
+    width: calc(50% - 15px);
+    height: 220px;
+  }
+  
+  .card-content h3 {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .ministry-hero {
+    height: 200px;
+    border-radius: 0 0 10px 10px;
+  }
+  
+  .ministry-image {
+    border-radius: 0 0 10px 10px;
+  }
+  
+  .ministry-text {
+    bottom: 15px;
+    left: 15px;
+  }
+  
+  .ministry-text h1 {
+    font-size: 24px;
+  }
+  
+  .ministry-cards {
+    gap: 10px;
+  }
+  
+  .ministry-card {
+    width: 100%;
+    height: 200px;
+  }
+  
+  .card-content h3 {
+    font-size: 18px;
+  }
+  
+  .card-button {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .modal {
+    padding: 20px;
+  }
+  
+  .modal h2 {
+    font-size: 20px;
+  }
+  
+  .modal input {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .modal-buttons button {
+    padding: 10px 0;
+    font-size: 14px;
   }
 }
 `;
